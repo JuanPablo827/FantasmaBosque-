@@ -200,13 +200,31 @@ public class GameManager : MonoBehaviour
         if (juegoIniciado) { CrearNuevoBloque(); }
     }
 
+    // Variable para llevar la cuenta de cuál bloque toca poner en orden
+    private int indiceBloqueActual = 0;
+
     void CrearNuevoBloque()
     {
-        int randomIndex = Random.Range(0, modelosBloques.Length);
-        Bloque bloqueSeleccionado = modelosBloques[randomIndex];
+        // Verificamos que la lista tenga bloques asignados
+        if (modelosBloques.Length == 0) return;
+
+        // Seleccionamos el bloque en orden estricto
+        Bloque bloqueSeleccionado = modelosBloques[indiceBloqueActual];
+
+        // Instanciamos el bloque
         Bloque nuevoBloque = Instantiate(bloqueSeleccionado);
         Vector3 diferentePosicion = nuevoBloque.transform.position - nuevoBloque.inicioBloque.transform.position;
         nuevoBloque.transform.position = ultimoBloque.finalBloque.position + diferentePosicion;
         ultimoBloque = nuevoBloque;
+
+        // Avanzamos al siguiente bloque en la lista
+        indiceBloqueActual++;
+
+        // Si llegamos al final de la lista, volvemos a empezar desde el primero (bucle infinito ordenado)
+        // O si prefieres que se detenga, puedes quitar esta condición.
+        if (indiceBloqueActual >= modelosBloques.Length)
+        {
+            indiceBloqueActual = 0;
+        }
     }
 }
