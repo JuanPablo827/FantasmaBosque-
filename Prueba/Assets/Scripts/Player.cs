@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
 
         if (velocidadFrontal < 30.0f)
         {
-            velocidadFrontal += (0.5f * Time.deltaTime);
+            velocidadFrontal += (0.2f * Time.deltaTime);
         }
 
     }
